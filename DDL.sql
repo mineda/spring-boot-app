@@ -28,3 +28,9 @@ create table uau_usuario_autorizacao (
   foreign key aut_usuario_fk (usr_id) references usr_usuario (usr_id) on delete restrict on update cascade,
   foreign key aut_autorizacao_fk (aut_id) references aut_autorizacao (aut_id) on delete restrict on update cascade
 );
+
+insert into usr_usuario (usr_nome, usr_senha)
+    values ('Mineda', 'SenhaF0rte');
+insert into aut_autorizacao (aut_nome)
+    values ('ROLE_ADMIN');
+insert into uau_usuario_autorizacao (1, 1);
