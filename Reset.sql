@@ -1,3 +1,6 @@
+drop user 'user'@'localhost';
+drop schema anotacao;
+
 create schema anotacao;
 
 use anotacao;
