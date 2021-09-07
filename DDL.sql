@@ -1,30 +1,43 @@
-create schema anotacao;
+-- drop database chat;
+create schema chat;
 
-use anotacao;
+use chat;
 
 create user 'user'@'localhost' identified by 'pass123';
 
-grant select, insert, delete, update on anotacao.* to user@'localhost';
+grant select, insert, delete, update on chat.* to user@'localhost';
 
-create table usr_usuario (
-  usr_id bigint unsigned not null auto_increment,
-  usr_nome varchar(20) not null,
-  usr_senha varchar(50) not null,
-  primary key (usr_id),
-  unique key uni_usuario_nome (usr_nome)
+create table usuario(
+	id_usuario bigint unsigned not null auto_increment,
+	nome_usuario varchar(30) not null,
+	cpf_usuario varchar(20) not null,
+	data_criado date,
+	primary key (id_usuario),
+	unique key uni_cpf (cpf_usuario),	
 );
 
-create table aut_autorizacao (
-  aut_id bigint unsigned not null auto_increment,
-  aut_nome varchar(20) not null,
-  primary key (aut_id),
-  unique key uni_aut_nome (aut_nome)
+create table conversa(
+	id_conversa bigint unsigned not null auto_increment,
+	data_inicio date,
+	data_ultima_conversa date,
+	primary key (id_conversa)
 );
 
-create table uau_usuario_autorizacao (
-  usr_id bigint unsigned not null,
-  aut_id bigint unsigned not null,
-  primary key (usr_id, aut_id),
-  foreign key aut_usuario_fk (usr_id) references usr_usuario (usr_id) on delete restrict on update cascade,
-  foreign key aut_autorizacao_fk (aut_id) references aut_autorizacao (aut_id) on delete restrict on update cascade
+create table mensagem(
+	id_mensagem bigint unsigned not null auto_increment,
+	id_conversa bigint unsigned not null,
+	id_usuario bigint unsigned not null,
+	data_criado date,
+	conteudo_mensagem longtext not null,
+	primary key (id_mensagem),
+	foreign key fk_id_conversa (id_conversa) references conversa (id_conversa),
+	foreign key fk_id_usuario (id_usuario) references usuario (id_usuario)
+);
+
+create table usuario_conversa(
+	id_usuario bigint unsigned not null,
+	id_conversa bigint unsigned not null,
+    primary key (id_usuario, id_conversa),
+	foreign key fk_id_conversa (id_conversa) references conversa (id_conversa),
+	foreign key fk_id_usuario (id_usuario) references usuario (id_usuario)
 );
